@@ -24,7 +24,9 @@ public class MinHeap<T extends Comparable<T>> {
         this.size = 0;
         this.heap = (T[]) new Object[capacity];
     }
-
+/**
+    helper Methods
+*/
     private int parent(int index) {
         return (index - 1) / 2;
     }
@@ -42,7 +44,10 @@ public class MinHeap<T extends Comparable<T>> {
         array[i] = array[j];
         array[j] = temp;
     }
-
+    
+    /**
+     * Restores heap property by pushing element down.
+     */
     private void siftDown(T[] array, int index) {
 
         int last = array.length - 1;
@@ -60,15 +65,21 @@ public class MinHeap<T extends Comparable<T>> {
             }
         }
     }
-
+/**
+    core operation
+*/
+    /**
+     * Inserts a value into the heap.
+     */
     public void insert(T Value) {
         if (this.size == this.capacity) {
             throw new IllegalStateException("Heap is full");
         }
+        // Place value at the end
         this.heap[this.size] = Value;
         int current = this.size;
         this.size++;
-
+        // Bubble up
         while (current > 0
                 && this.heap[current].compareTo(this.heap[this.parent(current)]) < 0) {
             this.swap(this.heap, current, this.parent(current));
@@ -76,7 +87,9 @@ public class MinHeap<T extends Comparable<T>> {
         }
 
     }
-
+    /**
+     * Returns the minimum element without removing it.
+     */
     public T peek() {
         if (this.size == 0) {
             throw new IllegalStateException("Heap is empty");
@@ -84,15 +97,19 @@ public class MinHeap<T extends Comparable<T>> {
         return this.heap[0];
 
     }
-
+    /**
+     * Removes and returns the minimum element.
+     */
     public T extractMin() {
         if (this.size == 0) {
             throw new IllegalStateException("Heap is empty");
         }
 
         T min = this.heap[0];
+         // Move last element to root
         this.swap(this.heap, 0, this.size - 1);
         this.size--;
+        // Restore heap property
         this.siftDown(this.heap, 0);
 
         return min;
@@ -113,3 +130,4 @@ public class MinHeap<T extends Comparable<T>> {
     }
 
 }
+
