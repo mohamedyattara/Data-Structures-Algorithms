@@ -26,6 +26,7 @@ public class bst<T extends Comparable<T>> {
 
     public void insert(T value) {
         this.root = this.insertRec(this.root, value);
+        this.size++;
     }
 
     private Node<T> insertRec(Node<T> node, T value) {
@@ -62,6 +63,7 @@ public class bst<T extends Comparable<T>> {
 
     public void delete(T value) {
         this.root = this.deleteRec(this.root, value);
+        this.size--;
     }
 
     private Node<T> deleteRec(Node<T> node, T value) {
