@@ -21,12 +21,12 @@ public class PriorityQueue<T> {
     }
 
     /** Adds an element to the priority queue */
-    public void enqueue(T value) {
+    public void insert(T value) {
         this.heap.insert(value);
     }
 
     /** Removes and returns the highest-priority element (smallest) */
-    public T dequeue() {
+    public T poll() {
         return this.heap.extractTop();
     }
 

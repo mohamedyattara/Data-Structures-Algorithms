@@ -55,7 +55,7 @@ public class Heap<T> {
      */
     private void siftDown(T[] array, int index, Comparator<T> order) {
 
-        int last = array.length - 1;
+        int last = this.size - 1;
 
         int left = this.leftChild(index);
         int right = this.rightChild(index);
