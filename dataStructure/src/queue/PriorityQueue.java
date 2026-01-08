@@ -1,6 +1,8 @@
 package queue;
 
-import heap.MinHeap;
+import java.util.Comparator;
+
+import heap.Heap;
 
 /**
  * Generic Priority Queue implementation backed by a MinHeap.
@@ -12,10 +14,11 @@ import heap.MinHeap;
  * Space Complexity: O(n)
  */
 public class PriorityQueue<T extends Comparable<T>> {
-    private MinHeap<T> heap;
+    private Heap<T> heap;
+    private Comparator<T> order;
 
     public PriorityQueue(int capacity) {
-        this.heap = new MinHeap<>(capacity);
+        this.heap = new Heap<>(capacity, this.order);
     }
 
     /** Adds an element to the priority queue */
@@ -25,7 +28,7 @@ public class PriorityQueue<T extends Comparable<T>> {
 
     /** Removes and returns the highest-priority element (smallest) */
     public T dequeue() {
-        return this.heap.extractMin();
+        return this.heap.extractTop();
     }
 
     /** Returns the highest-priority element without removing it */

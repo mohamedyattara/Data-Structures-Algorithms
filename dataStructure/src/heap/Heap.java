@@ -1,4 +1,5 @@
 package heap;
+
 import java.util.Comparator;
 
 /**
@@ -10,25 +11,27 @@ import java.util.Comparator;
  *
  * Space Complexity: O(n)
  */
-public class MinHeap<T> {
+public class Heap<T> {
 
     private T[] heap;
     private int size;
     private int capacity;
     private Comparator<T> order;
+
     /**
      * Constructs a MinHeap with a given capacity.
      */
     @SuppressWarnings("unchecked")
-    public MinHeap(int capacity, Comparator<T> order ) {
+    public Heap(int capacity, Comparator<T> order) {
         this.capacity = capacity;
         this.size = 0;
         this.heap = (T[]) new Object[capacity];
-         this.order = order;
+        this.order = order;
     }
-/**
-    helper Methods
-*/
+
+    /**
+     * helper Methods
+     */
     private int parent(int index) {
         return (index - 1) / 2;
     }
@@ -46,7 +49,7 @@ public class MinHeap<T> {
         array[i] = array[j];
         array[j] = temp;
     }
-    
+
     /**
      * Restores heap property by pushing element down.
      */
@@ -58,37 +61,39 @@ public class MinHeap<T> {
         int right = this.rightChild(index);
         if (left <= last) {
             int smallest = left;
-            if (right <= last && order.compare(array[right],(array[smallest])) < 0) {
+            if (right <= last && order.compare(array[right], (array[smallest])) < 0) {
                 smallest = right;
             }
-            if (order.compare(array[index],(array[smallest])) > 0) {
-                swap(array, index, smallest);
-                siftDown(array, smallest,order);
+            if (order.compare(array[index], (array[smallest])) > 0) {
+                this.swap(array, index, smallest);
+                this.siftDown(array, smallest, order);
             }
         }
     }
-/**
-    core operation
-*/
+
+    /**
+     * core operation
+     */
     /**
      * Inserts a value into the heap.
      */
-    public void insert(T Value) {
+    public void insert(T value) {
         if (this.size == this.capacity) {
             throw new IllegalStateException("Heap is full");
         }
         // Place value at the end
-        this.heap[this.size] = Value;
+        this.heap[this.size] = value;
         int current = this.size;
         this.size++;
         // Bubble up
-        while (current > 0
-                && this.order.compare(this.heap[current],(this.heap[this.parent(current)])) < 0) {
-            swap(this.heap, current, this.parent(current));
+        while (current > 0 && this.order.compare(this.heap[current],
+                (this.heap[this.parent(current)])) < 0) {
+            this.swap(this.heap, current, this.parent(current));
             current = this.parent(current);
         }
 
     }
+
     /**
      * Returns the minimum element without removing it.
      */
@@ -99,27 +104,28 @@ public class MinHeap<T> {
         return this.heap[0];
 
     }
+
     /**
      * Removes and returns the minimum element.
      */
-    public T extractMin() {
+    public T extractTop() {
         if (this.size == 0) {
             throw new IllegalStateException("Heap is empty");
         }
 
-        T min = this.heap[0];
-         // Move last element to root
+        T top = this.heap[0];
+        // Move last element to root
         this.swap(this.heap, 0, this.size - 1);
         this.size--;
         // Restore heap property
-        this.siftDown(this.heap, 0,this.order);
+        this.siftDown(this.heap, 0, this.order);
 
-        return min;
+        return top;
     }
 
     public void heapify() {
         for (int i = (this.size / 2) - 1; i >= 0; i--) {
-            this.siftDown(this.heap, i,this.order);
+            this.siftDown(this.heap, i, this.order);
         }
     }
 
@@ -132,5 +138,3 @@ public class MinHeap<T> {
     }
 
 }
-
-
