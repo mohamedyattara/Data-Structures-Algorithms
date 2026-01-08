@@ -1,4 +1,5 @@
 package heap;
+import java.util.Comparator;
 
 /**
  * MinHeap implementation using an array.
@@ -9,20 +10,21 @@ package heap;
  *
  * Space Complexity: O(n)
  */
-public class MinHeap<T extends Comparable<T>> {
+public class MinHeap<T> {
 
     private T[] heap;
     private int size;
     private int capacity;
-
+    private Comparator<T> order;
     /**
      * Constructs a MinHeap with a given capacity.
      */
     @SuppressWarnings("unchecked")
-    public MinHeap(int capacity) {
+    public MinHeap(int capacity, Comparator<T> order ) {
         this.capacity = capacity;
         this.size = 0;
         this.heap = (T[]) new Object[capacity];
+         this.order = order;
     }
 /**
     helper Methods
@@ -48,7 +50,7 @@ public class MinHeap<T extends Comparable<T>> {
     /**
      * Restores heap property by pushing element down.
      */
-    private void siftDown(T[] array, int index) {
+    private void siftDown(T[] array, int index, Comparator<T> order) {
 
         int last = array.length - 1;
 
@@ -56,12 +58,12 @@ public class MinHeap<T extends Comparable<T>> {
         int right = this.rightChild(index);
         if (left <= last) {
             int smallest = left;
-            if (right <= last && array[right].compareTo(array[smallest]) < 0) {
+            if (right <= last && order.compare(array[right],(array[smallest])) < 0) {
                 smallest = right;
             }
-            if (array[index].compareTo(array[smallest]) > 0) {
-                this.swap(array, index, smallest);
-                this.siftDown(array, smallest);
+            if (order.compare(array[index],(array[smallest])) > 0) {
+                swap(array, index, smallest);
+                siftDown(array, smallest,order);
             }
         }
     }
@@ -81,8 +83,8 @@ public class MinHeap<T extends Comparable<T>> {
         this.size++;
         // Bubble up
         while (current > 0
-                && this.heap[current].compareTo(this.heap[this.parent(current)]) < 0) {
-            this.swap(this.heap, current, this.parent(current));
+                && this.order.compare(this.heap[current],(this.heap[this.parent(current)])) < 0) {
+            swap(this.heap, current, this.parent(current));
             current = this.parent(current);
         }
 
@@ -110,14 +112,14 @@ public class MinHeap<T extends Comparable<T>> {
         this.swap(this.heap, 0, this.size - 1);
         this.size--;
         // Restore heap property
-        this.siftDown(this.heap, 0);
+        this.siftDown(this.heap, 0,this.order);
 
         return min;
     }
 
     public void heapify() {
         for (int i = (this.size / 2) - 1; i >= 0; i--) {
-            this.siftDown(this.heap, i);
+            this.siftDown(this.heap, i,this.order);
         }
     }
 
@@ -130,4 +132,5 @@ public class MinHeap<T extends Comparable<T>> {
     }
 
 }
+
 
