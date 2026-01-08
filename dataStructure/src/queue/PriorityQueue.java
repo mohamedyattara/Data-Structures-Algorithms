@@ -13,12 +13,11 @@ import heap.Heap;
  *
  * Space Complexity: O(n)
  */
-public class PriorityQueue<T extends Comparable<T>> {
+public class PriorityQueue<T> {
     private Heap<T> heap;
-    private Comparator<T> order;
 
-    public PriorityQueue(int capacity) {
-        this.heap = new Heap<>(capacity, this.order);
+    public PriorityQueue(int capacity, Comparator<T> comparator) {
+        this.heap = new Heap<>(capacity, comparator);
     }
 
     /** Adds an element to the priority queue */
